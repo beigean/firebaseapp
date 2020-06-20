@@ -104,9 +104,10 @@ export default {
     doSend() {
       let db = firebase.firestore();
       const usersRef = db.collection("users");
+      const walletAfter = 2000;
       usersRef
         .doc("3ZKSPc3SbJhPcuInaLVDRcHtICT2")
-        .update({ balance: "200000" })
+        .update({ balance: walletAfter })
         .then(usersRef => {
           if (usersRef) {
             console.log("Success edit user.");
@@ -115,6 +116,18 @@ export default {
         .catch(error => {
           console.error("Error edit user: ", error);
         });
+      this.wipItems = this.wipItems.map((elm) => {
+        if (elm.username === 'nao') {
+          return {
+            username: elm.username,
+            balance: walletAfter,
+            openModal: false,
+            sendModal: false,
+          };
+        }
+        return elm;
+      });
+      console.log(this.wipItems)
     }
   },
   computed: {
